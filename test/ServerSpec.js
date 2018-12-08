@@ -410,7 +410,6 @@ describe("", function () {
           });
         });
         // done();
-
         cookieParser(requestWithMultipleCookies, response, function () {
           var cookies = requestWithMultipleCookies.cookies;
           expect(cookies).to.be.an("object");
