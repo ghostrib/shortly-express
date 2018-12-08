@@ -228,7 +228,7 @@ describe("", function() {
     });
   });
 
-  xdescribe("Account Login:", function() {
+  describe("Account Login:", function() {
     beforeEach(function(done) {
       var options = {
         method: "POST",
@@ -302,7 +302,7 @@ describe("", function() {
     });
   });
 
-  xdescribe("Sessions Schema:", function() {
+  describe("Sessions Schema:", function() {
     it("contains a sessions table", function(done) {
       var queryString = "SELECT * FROM sessions";
       db.query(queryString, function(err, results) {

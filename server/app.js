@@ -28,6 +28,12 @@ app.get("/", (req, res) => {
 app.get("/create", (req, res) => {
   res.render("index");
 });
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+app.get("/signup", (req, res) => {
+  res.render("signup");
+});
 
 app.get("/links", (req, res, next) => {
   models.Links.getAll()
@@ -82,27 +88,42 @@ app.post("/links", (req, res, next) => {
 /************************************************************/
 // Write your authentication routes here
 /************************************************************/
-app.post("/login", (req, res, next) => {});
+app.post("/login", (req, res, next) => {
+  //console.log("login request body", req.body);
+  const options = {
+    username: req.body.username
+  };
+  let attempt = req.body.password;
+  new models.Models("users")
+    .get(options)
+    .then(userProfile => {
+      return models.Users.compare(
+        attempt,
+        userProfile.password,
+        userProfile.salt
+      );
+    })
+    .then(compareResult => {
+      if (compareResult) {
+        res.redirect("/");
+      } else {
+        res.redirect("/login");
+      }
+    })
+    .catch(err => {
+      res.redirect("/login");
+    });
+});
 
 app.post("/signup", (req, res) => {
-  //let username = req.body.username;
-  //let password = req.body.password;
   const { username, password } = req.body;
-
   models.Users.create({ username, password })
     .then(newUserObj => {
       res.redirect("/");
     })
     .catch(error => {
-      // console.log("Error creating new users", error);
       res.redirect("/signup");
     });
-
-  // res.send('User created. Message in app.js');
-  //res.end();
-
-  // Pass into users
-  //return models.Users.create(req.body.username)
 });
 
 /************************************************************/
