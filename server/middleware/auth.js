@@ -10,7 +10,8 @@ module.exports.createSession = (req, res, next) => {
         // console.log(session);
         req.session = session;
         res.cookie("shortlyid", session.hash);
-        console.log("IS THIS OUR COOKIE???", res.cookie);
+        console.log("USER SESSION!!!!!!:", req.session);
+        // console.log("IS THIS OUR COOKIE???", res.cookie);
         return next();
       })
       //   .then(session => {
